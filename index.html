@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vulnerability Reports</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    .container {
+      width: 80%;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #007bff;
+    }
+
+    .report {
+      border: 1px solid #ccc;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .high-severity {
+      border-left: 5px solid #ee5801;
+      background-color: #ff9544;
+    }
+
+    .medium-severity {
+      border-left: 5px solid #ffc107;
+      background-color: #fff3cd;
+    }
+
+    .critical-severity {
+      border-left: 5px solid #f00606;
+      background-color: #ea9e9e;
+    }
+
+    .report .header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+    }
+
+    .report .details {
+      margin-top: 10px;
+    }
+
+    .report .location,
+    .report .identifiers {
+      margin-top: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Scan Report</h1>
+    <div id="reports"></div>
+  </div>
+
+  <script>
+    fetch('gl-sast-report.json')
+      .then(response => response.json())
+      .then(data => {
+        const reportsContainer = document.getElementById('reports');
+
+        // Step 1: Calculate the total count of each severity
+        const severityCounts = data.vulnerabilities.reduce((counts, vulnerability) => {
+          counts[vulnerability.severity] = (counts[vulnerability.severity] || 0) + 1;
+          return counts;
+        }, {});
+
+        // Step 2: Create and append the elements to display the counts
+        const countsContainer = document.createElement('div');
+        countsContainer.className = 'counts-container';
+
+        Object.keys(severityCounts).forEach(severity => {
+          const countElement = document.createElement('div');
+          countElement.className = `count ${severity.toLowerCase()}-severity-count`;
+          countElement.innerHTML = `
+            <span>${severity} Severity: ${severityCounts[severity]}</span>
+          `;
+          countsContainer.appendChild(countElement);
+        });
+
+        reportsContainer.appendChild(countsContainer);
+
+        // Step 3: Create and append the report elements as before
+        data.vulnerabilities.forEach(vulnerability => {
+          const reportElement = document.createElement('div');
+          reportElement.className = `report ${vulnerability.severity.toLowerCase()}-severity`;
+
+          const headerElement = document.createElement('div');
+          headerElement.className = 'header';
+          headerElement.innerHTML = `
+            <span>${vulnerability.message}</span>
+            <span>Severity: ${vulnerability.severity}</span>
+          `;
+
+          const detailsElement = document.createElement('div');
+          detailsElement.className = 'details';
+          detailsElement.innerHTML = `
+            <p><strong>Description:</strong> ${vulnerability.description}</p>
+            <p><strong>File:</strong> ${vulnerability.location.file} (line ${vulnerability.location.start_line})</p>
+            <p><strong>Scanner:</strong> ${vulnerability.scanner.name}</p>
+          `;
+
+          const identifiersElement = document.createElement('div');
+          identifiersElement.className = 'identifiers';
+          identifiersElement.innerHTML = `
+            <p><strong>Identifiers:</strong></p>
+            <ul>
+              ${vulnerability.identifiers.map(identifier => `<li>${identifier.type}: ${identifier.name}</li>`).join('')}
+            </ul>
+          `;
+
+          reportElement.appendChild(headerElement);
+          reportElement.appendChild(detailsElement);
+          reportElement.appendChild(identifiersElement);
+
+          reportsContainer.appendChild(reportElement);
+        });
+      })
+      .catch(error => {
+        console.error('Error loading JSON data:', error);
+      });
+  </script>
+</body>
+
+</html>

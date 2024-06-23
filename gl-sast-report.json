@@ -1,0 +1,96 @@
+{
+    "version": "14.0.0",
+    "vulnerabilities": [
+        {
+            "id": "ee4c2ab8f94745669c58b9dcc0c39546",
+            "category": "sast",
+            "cve": "ee4c2ab8f94745669c58b9dcc0c39546",
+            "message": "Flask app is run in debug mode",
+            "description": "Running a Flask app in debug mode may allow an attacker to run arbitrary code through the Werkzeug debugger.",
+            "severity": "High",
+            "confidence": "High",
+            "scanner": {
+                "id": "codeql",
+                "name": "CodeQL"
+            },
+            "location": {
+                "file": "app.py",
+                "start_line": 18,
+                "end_line": 18
+            },
+            "identifiers": [
+                {
+                    "type": "codeql_query_id",
+                    "name": "py/flask-debug",
+                    "value": "py/flask-debug"
+                }
+            ]
+        },
+        {
+            "id": "2d1fde75da5d48bf804780dfe20157b9",
+            "category": "sast",
+            "cve": "2d1fde75da5d48bf804780dfe20157b9",
+            "message": "Hard-coded credentials",
+            "description": "Credentials are hard coded in the source code of the application.",
+            "severity": "Critical",
+            "confidence": "Medium",
+            "scanner": {
+                "id": "codeql",
+                "name": "CodeQL"
+            },
+            "location": {
+                "file": "application/db.py",
+                "start_line": 10,
+                "end_line": 10
+            },
+            "identifiers": [
+                {
+                    "type": "codeql_query_id",
+                    "name": "py/hardcoded-credentials",
+                    "value": "py/hardcoded-credentials"
+                }
+            ]
+        },
+        {
+            "id": "f1bc478cbfa24d59b3d82fe3821d4e0a",
+            "category": "sast",
+            "cve": "f1bc478cbfa24d59b3d82fe3821d4e0a",
+            "message": "Hard-coded credentials",
+            "description": "Credentials are hard coded in the source code of the application.",
+            "severity": "Critical",
+            "confidence": "Medium",
+            "scanner": {
+                "id": "codeql",
+                "name": "CodeQL"
+            },
+            "location": {
+                "file": "application/routes.py",
+                "start_line": 9,
+                "end_line": 9
+            },
+            "identifiers": [
+                {
+                    "type": "codeql_query_id",
+                    "name": "py/hardcoded-credentials",
+                    "value": "py/hardcoded-credentials"
+                }
+            ]
+        }
+    ],
+    "remediations": [],
+    "scan": {
+        "messages": [],
+        "scanner": {
+            "id": "codeql",
+            "name": "CodeQL",
+            "version": "2.16.2",
+            "vendor": {
+                "name": "GitHub"
+            }
+        },
+        "status": "success",
+        "type": "sast",
+        "start_time": "2024-06-23T06:54:48",
+        "end_time": "2024-06-23T06:54:48"
+    }
+}

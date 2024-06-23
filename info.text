@@ -1,0 +1,4 @@
+Yes, you can use Python to separate the JSON data into a separate file and then reference that file from your HTML. However, because of browser security policies, you will still need to serve the files via a local web server to avoid CORS issues. I'll guide you through the steps to achieve this.
+
+python -m http.server (need to run on terminal)
+http://localhost:8000/ (then only it will work)
