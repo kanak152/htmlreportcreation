@@ -27,6 +27,9 @@ CSS (embedded in HTML)
 JavaScript (embedded in HTML)
 python server (optional incase for if sepate json file required)
 
+python -m http.server (need to run on terminal)(python should installed on laptop)
+http://localhost:8000/ (then only it will work)
+
 
 
 
